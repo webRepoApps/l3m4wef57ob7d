@@ -41,10 +41,20 @@ const codeSnippets = [
     {
         id: 1,
         code: `
-function greet() {
-    console.log("Hello, World!");
+$servername = "localhost"; // اسم الخادم
+$username = "اسم_المستخدم"; // اسم مستخدم قاعدة البيانات
+$password = "كلمة_المرور"; // كلمة مرور قاعدة البيانات
+$dbname = "اسم_قاعدة_البيانات"; // اسم قاعدة البيانات
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // تعيين وضع الخطأ للاتصال
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "تم الاتصال بنجاح";
+} catch(PDOException $e) {
+    echo "فشل الاتصال: " . $e->getMessage();
 }
-greet();
+
 `
     },
     {
@@ -111,3 +121,4 @@ codeSnippets.forEach(snippet => {
 
 </body>
 </html>
+
