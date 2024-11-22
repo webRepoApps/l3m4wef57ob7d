@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Code Snippets</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css">
+<style>
+    .copy-button {
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    .code-container {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .alert {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 999;
+    }
+</style>
+</head>
+<body>
+
+<div id="code-snippets"></div>
+
+<script>
+const codeSnippets = [
+    {
+        id: 1,
+        code: `
+function greet() {
+    console.log("Hello, World!");
+}
+greet();
+`
+    },
+    {
+        id: 2,
+        code: `
+function add(a, b) {
+    return a + b;
+}
+console.log(add(5, 3));
+`
+    },
+    {
+        id: 3,
+        code: `
+   async getEmployee() {
+      const { data } = await axios.get(
+        window.location.origin + "/api/delivery_man/" + this.$route.params.id
+      );
+      this.allData = data.data;
+    },
+`
+    },
+    // Add more code snippets as needed
+];
+
+function copyCodeSnippet(codeText) {
+    navigator.clipboard.writeText(codeText).then(function() {
+        const alertDiv = document.createElement('div');
+        alertDiv.textContent = "Code snippet copied to clipboard!";
+        alertDiv.className = 'alert';
+
+        const codeSnippetsContainer = document.getElementById('code-snippets');
+        document.body.insertBefore(alertDiv, codeSnippetsContainer);
+
+        setTimeout(function() {
+            alertDiv.style.display = 'none';
+        }, 3000); // Hides the alert after 3 seconds
+    }, function(err) {
+        console.error('Failed to copy: ', err);
+    });
+}
+
+// Generate dynamic code snippets
+codeSnippets.forEach(snippet => {
+    const codeSnippet = document.createElement('pre');
+    codeSnippet.innerHTML = `<code class="language-javascript">${snippet.code}</code>`;
+
+    const copyButton = document.createElement('button');
+    copyButton.className = 'copy-button';
+    copyButton.textContent = 'Copy Code';
+    copyButton.addEventListener('click', () => copyCodeSnippet(snippet.code));
+
+    const codeContainer = document.createElement('div');
+    codeContainer.className = 'code-container';
+    codeContainer.appendChild(codeSnippet);
+    codeContainer.appendChild(copyButton);
+
+    document.getElementById('code-snippets').appendChild(codeContainer);
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-javascript.min.js"></script>
+
+</body>
+</html>
